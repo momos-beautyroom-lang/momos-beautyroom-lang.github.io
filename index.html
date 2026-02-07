@@ -1,258 +1,117 @@
+
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Momo's Beauty Room | 萌萌美妆乐园</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
-    
+    <title>Momo's Beauty Room | 精选美妆货架</title>
     <style>
-        /* ==================== 二次元配色与全局变量 ==================== */
-        :root {
-            --bg-color: #fdfaf6;      /* 温暖米白 */
-            --manga-pink: #ffb7c5;    /* 樱花粉 */
-            --manga-blue: #a3e6ff;    /* 晴空蓝 */
-            --amz-orange: #FF9900;    /* 亚马逊橙 */
-            --ali-red: #FF4747;       /* 阿里红 */
-            --border-line: #222;      /* 漫画粗线条色 */
-        }
-
-        body {
-            font-family: 'ZCOOL QingKe HuangYou', 'Microsoft YaHei', sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding-top: 80px;
-            color: #333;
-        }
-
-        /* ==================== 动漫搜索栏 ==================== */
-        .nav-bar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: white;
-            padding: 15px 0;
-            box-shadow: 0 4px 0px var(--border-line); /* 漫画感硬阴影 */
-            z-index: 1000;
-            text-align: center;
-            border-bottom: 3px solid var(--border-line);
-        }
-        #searchBar {
-            width: 80%;
-            max-width: 500px;
-            padding: 12px 20px;
-            border: 3px solid var(--border-line);
-            border-radius: 30px;
-            font-size: 1.1em;
-            outline: none;
-            box-shadow: 4px 4px 0px var(--manga-blue);
-            transition: 0.2s;
-        }
-        #searchBar:focus {
-            box-shadow: 6px 6px 0px var(--manga-pink);
-            transform: scale(1.02);
-        }
-
-        /* ==================== 产品网格布局 ==================== */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 25px;
-            padding: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* ==================== 漫画风格卡片 ==================== */
-        .card {
-            background: white;
-            border: 3px solid var(--border-line);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 6px 6px 0px var(--manga-pink);
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-        .card:hover {
-            transform: translate(-4px, -4px);
-            box-shadow: 10px 10px 0px var(--manga-blue);
-        }
-        .card img {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            border-bottom: 3px solid var(--border-line);
-        }
-        .info {
-            padding: 12px;
-            flex-grow: 1;
-        }
-        .title {
-            font-size: 1.1em;
-            font-weight: bold;
-            height: 40px;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-        .price {
-            color: #e63946;
-            font-size: 1.2em;
-            font-weight: 900;
-            margin-bottom: 10px;
-        }
-
-        /* ==================== 平台专用按钮 ==================== */
-        .btn {
-            display: block;
-            text-align: center;
-            padding: 10px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 10px;
-            border: 2px solid var(--border-line);
-            margin-top: 5px;
-            transition: 0.2s;
-        }
-        .amz-btn { background: var(--amz-orange); color: white; }
-        .ali-btn { background: var(--ali-red); color: white; }
-        .btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
-
-        /* ==================== Momo 看板娘 (Anime Mascot) ==================== */
-        #momo-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 120px;
-            z-index: 9999;
-            cursor: pointer;
-        }
-        #momo-img {
-            width: 100%;
-            filter: drop-shadow(4px 4px 0px var(--border-line));
-            animation: bounce 3s infinite ease-in-out;
-        }
-        .bubble {
-            position: absolute;
-            bottom: 130px;
-            right: 10px;
-            background: white;
-            border: 3px solid var(--border-line);
-            padding: 10px;
-            border-radius: 15px;
-            width: 160px;
-            font-size: 0.9em;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
-            display: none; /* 默认隐藏 */
-        }
-        .bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            right: 40px;
-            border-width: 15px 15px 0 0;
-            border-style: solid;
-            border-color: var(--border-line) transparent;
-            display: block; width: 0;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @media (max-width: 600px) {
-            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
-            #momo-container { width: 80px; }
-        }
+        :root { --bg: #fffbfb; --accent: #ff85a2; --dark: #2d3436; --shadow: 0 10px 30px rgba(255, 133, 162, 0.1); }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; background-color: var(--bg); color: var(--dark); }
+        header { background: white; padding: 25px 0; text-align: center; border-bottom: 1px solid #ffeef2; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 26px; font-weight: 300; color: var(--dark); letter-spacing: 5px; text-transform: uppercase; }
+        .search-section { padding: 30px 15px; background: linear-gradient(to bottom, #fff, #fff0f3); text-align: center; }
+        #searchInput { padding: 15px 25px; width: 85%; max-width: 500px; border-radius: 50px; border: 2px solid #ffeef2; outline: none; font-size: 16px; transition: 0.3s; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: white; border-radius: 20px; overflow: hidden; transition: all 0.4s ease; border: 1px solid #f9f9f9; position: relative; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-10px); box-shadow: var(--shadow); }
+        .badge { position: absolute; top: 15px; left: 15px; background: rgba(255, 255, 255, 0.9); color: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; z-index: 10; }
+        
+        /* 让图片点击区域充满卡片顶部 */
+        .card a { text-decoration: none; color: inherit; }
+        .card img { width: 100%; height: 280px; object-fit: cover; background: #eee; display: block; }
+        
+        .card-content { padding: 20px; text-align: center; }
+        .card-content h3 { margin: 0 0 15px 0; font-size: 15px; font-weight: 600; height: 45px; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
+        .btn { display: block; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; margin-bottom: 10px; font-size: 13px; transition: 0.3s; }
+        .btn-amazon { background: #232f3e; color: white !important; }
+        .btn-ali { background: white; color: #ff6a00 !important; border: 1.5px solid #ff6a00; }
+        footer { padding: 60px 20px; text-align: center; color: #bdc3c7; font-size: 12px; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
-<div class="nav-bar">
-    <input type="text" id="searchBar" placeholder="🔍 搜索 Momo 的 1000+ 件好物..." onkeyup="filterProducts()">
+<header><div class="logo">Momo's Beauty</div></header>
+
+<div class="search-section">
+    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="SEARCH FOR #NO. OR PRODUCT...">
 </div>
 
-<div class="product-grid" id="productGrid">
+<div class="container" id="productGrid">
+    
+    <div class="card" data-title="001 Valentine Gift 情人节 礼物">
+        <div class="badge">#001</div>
+        <a href="https://amzn.to/3ZRkXS6"><img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800"></a>
+        <div class="card-content">
+            <a href="https://amzn.to/3ZRkXS6"><h3>VALENTINE'S SPECIAL GIFT</h3></a>
+            <a href="https://amzn.to/3ZRkXS6" class="btn btn-amazon">SHOP ON AMAZON</a>
+            <a href="https://www.alibaba.com" class="btn btn-ali">WHOLESALE</a>
+        </div>
     </div>
 
-<div id="momo-container" onclick="momoSpeak()">
-    <div class="bubble" id="momoBubble">嘿！想要这个平替吗？点我看看！</div>
-    <img id="momo-img" src="https://i.ibb.co/k2c05B6/momo-mascot.png" alt="Momo">
+    <div class="card" data-title="003 Nail Art Press-on Nails Manicure 美甲 穿戴甲">
+        <div class="badge">#003</div>
+        <a href="https://amzn.to/49WkAvB"><img src="https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/02.png?raw=true"></a>
+        <div class="card-content">
+            <a href="https://amzn.to/49WkAvB"><h3>TRENDY NAIL ART DESIGN</h3></a>
+            <a href="https://amzn.to/49WkAvB" class="btn btn-amazon">SHOP ON AMAZON</a>
+            <a href="https://www.alibaba.com" class="btn btn-ali">WHOLESALE</a>
+        </div>
+    </div>
+
+    <div class="card" data-title="004 Pimple Patches Acne Cover Invisible 痘痘贴 隐形">
+        <div class="badge">#004</div>
+        <a href="https://amzn.to/3ZOLG1z"><img src="https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/04.png?raw=true"></a>
+        <div class="card-content">
+            <a href="https://amzn.to/3ZOLG1z"><h3>INVISIBLE ACNE PATCHES</h3></a>
+            <a href="https://amzn.to/3ZOLG1z" class="btn btn-amazon">SHOP ON AMAZON</a>
+            <a href="https://www.alibaba.com" class="btn btn-ali">WHOLESALE</a>
+        </div>
+    </div>
+
+    <div class="card" data-title="005 Facial Mask Sheet Mask Hydrating 面膜 补水">
+        <div class="badge">#005</div>
+        <a href="https://amzn.to/4a79H8P"><img src="https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/05.png?raw=true"></a>
+        <div class="card-content">
+            <a href="https://amzn.to/4a79H8P"><h3>HYDRATING FACIAL MASK</h3></a>
+            <a href="https://amzn.to/4a79H8P" class="btn btn-amazon">SHOP ON AMAZON</a>
+            <a href="https://www.alibaba.com" class="btn btn-ali">WHOLESALE</a>
+        </div>
+    </div>
+
+    <div class="card" data-title="006 Skin Care Routine Essence Serum 护肤 精华">
+        <div class="badge">#006</div>
+        <a href="https://amzn.to/3LEifvV"><img src="https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/06.png?raw=true"></a>
+        <div class="card-content">
+            <a href="https://amzn.to/3LEifvV"><h3>DAILY ESSENTIAL SKIN CARE</h3></a>
+            <a href="https://amzn.to/3LEifvV" class="btn btn-amazon">SHOP ON AMAZON</a>
+            <a href="https://www.alibaba.com" class="btn btn-ali">WHOLESALE</a>
+        </div>
+    </div>
+
+    <div class="card" data-title="007 Anti-Aging Cream Retinol Wrinkle Repair 抗老 面霜">
+        <div class="badge">#007</div>
+        <a href="https://amzn.to/4qZWmWX"><img src="https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/07.png?raw=true"></a>
+        <div class="card-content">
+            <a href="https://amzn.to/4qZWmWX"><h3>ANTI-AGING REPAIR CREAM</h3></a>
+            <a href="https://amzn.to/4qZWmWX" class="btn btn-amazon">SHOP ON AMAZON</a>
+            <a href="https://www.alibaba.com" class="btn btn-ali">WHOLESALE</a>
+        </div>
+    </div>
+
 </div>
 
+<footer>EST. 2026 | MOMO'S BEAUTY ROOM</footer>
+
 <script>
-    // ==================== 1000+ 产品数据库 ====================
-    // 这里建议以后使用外部 JSON 文件，目前先放示例数据
-    const products = [
-        {
-            name: "网红款蚕丝面膜 - 保湿补水",
-            price: "$12.99",
-            platform: "Ali",
-            link: "https://your-ali-link.com",
-            img: "https://via.placeholder.com/200/ffb7c5/ffffff?text=Mask",
-            tags: "mask, skincare, hydration"
-        },
-        {
-            name: "L'Oreal 玻尿酸精华液",
-            price: "$24.50",
-            platform: "Amazon",
-            link: "https://your-amz-link.com",
-            img: "https://via.placeholder.com/200/a3e6ff/ffffff?text=Serum",
-            tags: "loreal, serum, amazon, beauty"
-        },
-        // 你可以在这里继续添加，哪怕 1000 个也没问题
-    ];
-
-    // ==================== 渲染逻辑 ====================
-    function renderProducts(data) {
-        const grid = document.getElementById('productGrid');
-        grid.innerHTML = data.map(item => `
-            <div class="card">
-                <img src="${item.img}" alt="${item.name}">
-                <div class="info">
-                    <div class="title">${item.name}</div>
-                    <div class="price">${item.price}</div>
-                    <a href="${item.link}" class="btn ${item.platform === 'Amazon' ? 'amz-btn' : 'ali-btn'}" target="_blank">
-                        ${item.platform === 'Amazon' ? 'Amazon 🛒' : 'AliExpress 🛍️'}
-                    </a>
-                </div>
-            </div>
-        `).join('');
+function filterProducts() {
+    let input = document.getElementById('searchInput').value.toUpperCase();
+    let cards = document.getElementsByClassName('card');
+    for (let i = 0; i < cards.length; i++) {
+        let title = cards[i].getAttribute('data-title').toUpperCase();
+        cards[i].style.display = title.indexOf(input) > -1 ? "" : "none";
     }
-
-    // ==================== 搜索过滤逻辑 ====================
-    function filterProducts() {
-        const term = document.getElementById('searchBar').value.toLowerCase();
-        const filtered = products.filter(p => 
-            p.name.toLowerCase().includes(term) || 
-            p.tags.toLowerCase().includes(term)
-        );
-        renderProducts(filtered);
-    }
-
-    // ==================== 看板娘互动 ====================
-    const quotes = [
-        "今天的你也要美美的哦！✨",
-        "我在亚马逊发现了一个超赞的平替！",
-        "搜索一下，说不定有惊喜哦！",
-        "这些都是 Momo 的私人收藏~",
-        "需要帮忙找产品吗？"
-    ];
-
-    function momoSpeak() {
-        const bubble = document.getElementById('momoBubble');
-        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        bubble.innerText = randomQuote;
-        bubble.style.display = 'block';
-        setTimeout(() => { bubble.style.display = 'none'; }, 3000);
-    }
-
-    // 页面加载时执行渲染
-    window.onload = () => renderProducts(products);
+}
 </script>
-
 </body>
 </html>
