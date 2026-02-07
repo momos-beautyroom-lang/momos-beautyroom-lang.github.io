@@ -5,37 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Momo's Beauty Room | 精选美妆货架</title>
     <style>
-        :root { 
-            --bg: #fffbfb; 
-            --accent: #ff85a2; 
-            --dark: #2d3436; 
-            --amz-dark: #232f3e;
-            --ali-orange: #ff6a00;
-            --shadow: 0 10px 30px rgba(255, 133, 162, 0.15); 
-            --manga-border: 2px solid #2d3436;
-        }
-        
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; background-color: var(--bg); color: var(--dark); overflow-x: hidden; }
-        
-        /* Header & Search */
+        :root { --bg: #fffbfb; --accent: #ff85a2; --dark: #2d3436; --shadow: 0 10px 30px rgba(255, 133, 162, 0.1); }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; background-color: var(--bg); color: var(--dark); }
         header { background: white; padding: 25px 0; text-align: center; border-bottom: 1px solid #ffeef2; position: sticky; top: 0; z-index: 1000; }
         .logo { font-size: 26px; font-weight: 300; color: var(--dark); letter-spacing: 5px; text-transform: uppercase; }
-        
         .search-section { padding: 30px 15px; background: linear-gradient(to bottom, #fff, #fff0f3); text-align: center; }
-        #searchInput { 
-            padding: 15px 25px; width: 85%; max-width: 500px; border-radius: 50px; 
-            border: var(--manga-border); outline: none; font-size: 16px; 
-            box-shadow: 4px 4px 0px var(--accent); transition: 0.3s; 
-        }
-
-        /* Container & Cards */
+        #searchInput { padding: 15px 25px; width: 85%; max-width: 500px; border-radius: 50px; border: 2px solid #ffeef2; outline: none; font-size: 16px; transition: 0.3s; }
         .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: white; border-radius: 20px; overflow: hidden; transition: all 0.4s ease; border: 1px solid #f9f9f9; position: relative; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-10px); box-shadow: var(--shadow); }
+        .badge { position: absolute; top: 15px; left: 15px; background: rgba(255, 255, 255, 0.9); color: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; z-index: 10; }
         
-        .card { 
-            background: white; border-radius: 20px; overflow: hidden; transition: all 0.4s ease; 
-            border: var(--manga-border); position: relative; display: flex; flex-direction: column; 
-            box-shadow: 6px 6px 0px rgba(0,0,0,0.05);
+        .card a { text-decoration: none; color: inherit; }
+        .card img { width: 100%; height: 280px; object-fit: cover; background: #eee; display: block; }
+        
+        .card-content { padding: 20px; text-align: center; }
+        .card-content h3 { margin: 0 0 15px 0; font-size: 15px; font-weight: 600; height: 45px; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
+        .btn { display: block; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; margin-bottom: 10px; font-size: 13px; transition: 0.3s; }
+        .btn-amazon { background: #232f3e; color: white !important; }
+        .btn-ali { background: white; color: #ff6a00 !important; border: 1.5px solid #ff6a00; }
+        
+        /* Momo 看板娘专属样式 */
+        #momo-container { position: fixed; bottom: 20px; right: 20px; width: 100px; z-index: 9999; cursor: pointer; }
+        #momo-img { width: 100%; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1)); animation: bounce 3s infinite ease-in-out; }
+        .bubble { 
+            position: absolute; bottom: 110px; right: 0; background: white; border: 1px solid #ffeef2; 
+            padding: 10px; border-radius: 15px; width: 150px; font-size: 12px; display: none; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center;
         }
-        .card:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--manga-blue, #a3e6ff); }
-        
-        .badge { position: absolute; top: 15px; left: 15px; background: white; color: var(--dark); padding: 4px 12px; border: 1.5px solid var(--dark); border
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        footer { padding: 60px 20px; text-align: center; color: #bdc3c7; font-size: 12px; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+<header><div class="logo">Momo's Beauty</div></header>
+
+<div class="search-section">
+    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="SEARCH FOR #NO. OR PRODUCT...">
+</div>
+
+<div class="container" id="productGrid">
+    </div>
+
+<div id="momo-container" onclick="momoSpeak()">
+    <div class="bubble" id="momoBubble">Hey! 找到心仪的了吗？</div>
+    <img id="momo-img" src="https://i.ibb.co/k2c05B6/momo-mascot.png" alt="Momo">
+</div>
+
+<footer>EST. 2026 | MOMO'S BEAUTY ROOM</footer>
+
+<script>
+/**
+ * 1. 你的产品清单 (管理这里即可)
+ */
+const products = [
+    { id: "001", title: "VALENTINE'S SPECIAL GIFT", tags: "Valentine Gift 情人节 礼物", amz: "https://amzn.to/3ZRkXS6", ali: "https://www.alibaba.com", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800" },
+    { id: "003", title: "TRENDY NAIL ART DESIGN", tags: "Nail Art Press-on Nails Manicure 美甲 穿戴甲", amz: "https://amzn.to/49WkAvB", ali: "https://www.alibaba.com", img: "https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/02.png?raw=true" },
+    { id: "004", title: "INVISIBLE ACNE PATCHES", tags: "Pimple Patches Acne Cover Invisible 痘痘贴 隐形", amz: "https://amzn.to/3ZOLG1z", ali: "https://www.alibaba.com", img: "https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/04.png?raw=true" },
+    { id: "005", title: "HYDRATING FACIAL MASK", tags: "Facial Mask Sheet Mask Hydrating 面膜 补水", amz: "https://amzn.to/4a79H8P", ali: "https://www.alibaba.com", img: "https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/05.png?raw=true" },
+    { id: "006", title: "DAILY ESSENTIAL SKIN CARE", tags: "Skin Care Routine Essence Serum 护肤 精华", amz: "https://amzn.to/3LEifvV", ali: "https://www.alibaba.com", img: "https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/06.png?raw=true" },
+    { id: "007", title: "ANTI-AGING REPAIR CREAM", tags: "Anti-Aging Cream Retinol Wrinkle Repair 抗老 面霜", amz: "https://amzn.to/4qZWmWX", ali: "https://www.alibaba.com", img: "https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/07.png?raw=true" }
+];
+
+/**
+ * 2. 渲染函数：将清单转为 HTML
+ */
+function renderProducts(items) {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = items.map(p => `
+        <div class="card" data-search="${p.id} ${p.title} ${p.tags}">
+            <div class="badge">#${p.id}</div>
+            <a href="${p.amz}"><img src="${p.img}"></a>
+            <div class="card-content">
+                <a href="${p.amz}"><h3>${p.title}</h3></a>
+                <a href="${p.amz}" class="btn btn-amazon">SHOP ON AMAZON</a>
+                <a href="${p.ali}" class="btn btn-ali">WHOLESALE</a>
+            </div>
+        </div>
+    `).join('');
+}
+
+/**
+ * 3. 搜索过滤
+ */
+function filterProducts() {
+    let input = document.getElementById('searchInput').value.toUpperCase();
+    let cards = document.getElementsByClassName('card');
+    for (let card of cards) {
+        let text = card.getAttribute('data-search').toUpperCase();
+        card.style.display = text.indexOf(input) > -1 ? "" : "none";
+    }
+}
+
+/**
+ * 4. 看板娘互动
+ */
+function momoSpeak() {
+    const bubble = document.getElementById('momoBubble');
+    const msgs = ["Hi! 找到喜欢的吗？", "这些都是我的私人推荐哦~", "这款在亚马逊超火的！", "要看批发价点 WHOLESALE"];
+    bubble.innerText = msgs[Math.floor(Math.random() * msgs.length)];
+    bubble.style.display = 'block';
+    setTimeout(() => { bubble.style.display = 'none'; }, 3000);
+}
+
+// 页面加载时初始化
+window.onload = () => renderProducts(products);
+</script>
+</body>
+</html>
