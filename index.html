@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Momo's Beauty Room | 萌萌美妆乐园</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==================== 二次元配色与全局变量 ==================== */
+        :root {
+            --bg-color: #fdfaf6;      /* 温暖米白 */
+            --manga-pink: #ffb7c5;    /* 樱花粉 */
+            --manga-blue: #a3e6ff;    /* 晴空蓝 */
+            --amz-orange: #FF9900;    /* 亚马逊橙 */
+            --ali-red: #FF4747;       /* 阿里红 */
+            --border-line: #222;      /* 漫画粗线条色 */
+        }
+
+        body {
+            font-family: 'ZCOOL QingKe HuangYou', 'Microsoft YaHei', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding-top: 80px;
+            color: #333;
+        }
+
+        /* ==================== 动漫搜索栏 ==================== */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 0px var(--border-line); /* 漫画感硬阴影 */
+            z-index: 1000;
+            text-align: center;
+            border-bottom: 3px solid var(--border-line);
+        }
+        #searchBar {
+            width: 80%;
+            max-width: 500px;
+            padding: 12px 20px;
+            border: 3px solid var(--border-line);
+            border-radius: 30px;
+            font-size: 1.1em;
+            outline: none;
+            box-shadow: 4px 4px 0px var(--manga-blue);
+            transition: 0.2s;
+        }
+        #searchBar:focus {
+            box-shadow: 6px 6px 0px var(--manga-pink);
+            transform: scale(1.02);
+        }
+
+        /* ==================== 产品网格布局 ==================== */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 25px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ==================== 漫画风格卡片 ==================== */
+        .card {
+            background: white;
+            border: 3px solid var(--border-line);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 6px 6px 0px var(--manga-pink);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 10px 10px 0px var(--manga-blue);
+        }
+        .card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-bottom: 3px solid var(--border-line);
+        }
+        .info {
+            padding: 12px;
+            flex-grow: 1;
+        }
+        .title {
+            font-size: 1.1em;
+            font-weight: bold;
+            height: 40px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .price {
+            color: #e63946;
+            font-size: 1.2em;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        /* ==================== 平台专用按钮 ==================== */
+        .btn {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 10px;
+            border: 2px solid var(--border-line);
+            margin-top: 5px;
+            transition: 0.2s;
+        }
+        .amz-btn { background: var(--amz-orange); color: white; }
+        .ali-btn { background: var(--ali-red); color: white; }
+        .btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        /* ==================== Momo 看板娘 (Anime Mascot) ==================== */
+        #momo-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            z-index: 9999;
+            cursor: pointer;
+        }
+        #momo-img {
+            width: 100%;
+            filter: drop-shadow(4px 4px 0px var(--border-line));
+            animation: bounce 3s infinite ease-in-out;
+        }
+        .bubble {
+            position: absolute;
+            bottom: 130px;
+            right: 10px;
+            background: white;
+            border: 3px solid var(--border-line);
+            padding: 10px;
+            border-radius: 15px;
+            width: 160px;
+            font-size: 0.9em;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            display: none; /* 默认隐藏 */
+        }
+        .bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: 40px;
+            border-width: 15px 15px 0 0;
+            border-style: solid;
+            border-color: var(--border-line) transparent;
+            display: block; width: 0;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 600px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
+            #momo-container { width: 80px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="nav-bar">
+    <input type="text" id="searchBar" placeholder="🔍 搜索 Momo 的 1000+ 件好物..." onkeyup="filterProducts()">
+</div>
+
+<div class="product-grid" id="productGrid">
+    </div>
+
+<div id="momo-container" onclick="momoSpeak()">
+    <div class="bubble" id="momoBubble">嘿！想要这个平替吗？点我看看！</div>
+    <img id="momo-img" src="https://i.ibb.co/k2c05B6/momo-mascot.png" alt="Momo">
+</div>
+
+<script>
+    // ==================== 1000+ 产品数据库 ====================
+    // 这里建议以后使用外部 JSON 文件，目前先放示例数据
+    const products = [
+        {
+            name: "网红款蚕丝面膜 - 保湿补水",
+            price: "$12.99",
+            platform: "Ali",
+            link: "https://your-ali-link.com",
+            img: "https://via.placeholder.com/200/ffb7c5/ffffff?text=Mask",
+            tags: "mask, skincare, hydration"
+        },
+        {
+            name: "L'Oreal 玻尿酸精华液",
+            price: "$24.50",
+            platform: "Amazon",
+            link: "https://your-amz-link.com",
+            img: "https://via.placeholder.com/200/a3e6ff/ffffff?text=Serum",
+            tags: "loreal, serum, amazon, beauty"
+        },
+        // 你可以在这里继续添加，哪怕 1000 个也没问题
+    ];
+
+    // ==================== 渲染逻辑 ====================
+    function renderProducts(data) {
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = data.map(item => `
+            <div class="card">
+                <img src="${item.img}" alt="${item.name}">
+                <div class="info">
+                    <div class="title">${item.name}</div>
+                    <div class="price">${item.price}</div>
+                    <a href="${item.link}" class="btn ${item.platform === 'Amazon' ? 'amz-btn' : 'ali-btn'}" target="_blank">
+                        ${item.platform === 'Amazon' ? 'Amazon 🛒' : 'AliExpress 🛍️'}
+                    </a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ==================== 搜索过滤逻辑 ====================
+    function filterProducts() {
+        const term = document.getElementById('searchBar').value.toLowerCase();
+        const filtered = products.filter(p => 
+            p.name.toLowerCase().includes(term) || 
+            p.tags.toLowerCase().includes(term)
+        );
+        renderProducts(filtered);
+    }
+
+    // ==================== 看板娘互动 ====================
+    const quotes = [
+        "今天的你也要美美的哦！✨",
+        "我在亚马逊发现了一个超赞的平替！",
+        "搜索一下，说不定有惊喜哦！",
+        "这些都是 Momo 的私人收藏~",
+        "需要帮忙找产品吗？"
+    ];
+
+    function momoSpeak() {
+        const bubble = document.getElementById('momoBubble');
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        bubble.innerText = randomQuote;
+        bubble.style.display = 'block';
+        setTimeout(() => { bubble.style.display = 'none'; }, 3000);
+    }
+
+    // 页面加载时执行渲染
+    window.onload = () => renderProducts(products);
+</script>
+
+</body>
+</html>
