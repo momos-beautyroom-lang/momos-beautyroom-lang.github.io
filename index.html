@@ -15,53 +15,72 @@
         /* Search Section */
         .search-section { padding: 25px 15px; background: linear-gradient(to bottom, #fff, #fff0f3); text-align: center; }
         #searchInput { padding: 12px 25px; width: 90%; max-width: 500px; border-radius: 50px; border: 2px solid #ffeef2; outline: none; font-size: 16px; transition: 0.3s; box-sizing: border-box; }
-        #searchInput:focus { border-color: var(--accent); background: white; box-shadow: 0 0 15px rgba(255, 133, 162, 0.2); }
 
         /* Product Grid */
         .container { max-width: 1200px; margin: 15px auto; padding: 0 15px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         
-        /* Mobile Layout Optimization */
         @media (max-width: 600px) {
             .container { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 12px; }
-            .card-content h3 { font-size: 12px; height: 32px; margin-bottom: 8px !important; }
+            .card-content h3 { font-size: 12px; height: 32px; }
             .btn { padding: 10px 4px; font-size: 10px; border-radius: 10px; }
-            .logo { font-size: 18px; letter-spacing: 3px; }
-            .card-img-wrapper { height: auto !important; aspect-ratio: 4 / 5; }
+            .card-img-wrapper { height: 200px !important; }
         }
 
         /* Card Design */
-        .card { background: white; border-radius: 20px; overflow: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid #fff0f3; position: relative; display: flex; flex-direction: column; }
+        .card { background: white; border-radius: 20px; overflow: hidden; transition: 0.4s; border: 1px solid #fff0f3; display: flex; flex-direction: column; position: relative; }
         .card:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
-        .badge { position: absolute; top: 12px; left: 12px; background: rgba(255, 133, 162, 0.9); color: white; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 10; backdrop-filter: blur(5px); }
+        .badge { position: absolute; top: 12px; left: 12px; background: rgba(255, 133, 162, 0.9); color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 10; }
         
-        /* Image Control */
-        .card-img-wrapper { width: 100%; height: 320px; background: #fff; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .card img { max-width: 100%; max-height: 100%; object-fit: contain; transition: 0.5s; display: block; }
+        .card-img-wrapper { width: 100%; height: 300px; background: #fefefe; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
         
-        .card-content { padding: 15px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-content h3 { margin: 0 0 12px 0; font-size: 14px; font-weight: 600; line-height: 1.2; height: 36px; display: flex; align-items: center; justify-content: center; color: #444; text-decoration: none; }
+        .card-content { padding: 15px; text-align: center; flex-grow: 1; }
+        .card-content h3 { margin: 0 0 12px 0; font-size: 14px; font-weight: 600; line-height: 1.2; height: 36px; overflow: hidden; color: #444; }
         
-        /* Action Buttons */
         .btn { display: block; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 8px; font-size: 11px; transition: 0.3s; text-align: center; }
         .btn-amazon { background: #232f3e; color: white !important; }
         .btn-ali { background: white; color: #ff6a00 !important; border: 1.5px solid #ff6a00; }
-        .btn:active { transform: scale(0.95); }
 
-        /* Momo Character - Persona Style 🐱 */
-        #momo-container { position: fixed; bottom: 25px; right: 20px; width: 75px; z-index: 9999; cursor: pointer; transition: 0.3s; }
-        #momo-container:hover { transform: scale(1.1); }
-        #momo-img { width: 100%; filter: drop-shadow(0 10px 20px rgba(255, 133, 162, 0.3)); animation: bounce 3s infinite ease-in-out; }
+        /* --- 重点修复：Momo 看板娘部分 --- */
+        #momo-container { 
+            position: fixed; 
+            bottom: 25px; 
+            right: 20px; 
+            width: 75px; 
+            height: 75px;
+            z-index: 9999; 
+            cursor: pointer; 
+        }
         
-        .bubble { 
-            position: absolute; bottom: 85px; right: -5px; background: white; border: 1.5px solid #ffeef2; 
-            padding: 12px; border-radius: 20px 20px 5px 20px; width: 145px; font-size: 12px; display: none; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center; color: #ff85a2; font-weight: 500;
-            line-height: 1.4; animation: fadeIn 0.3s ease-out;
+        #momo-img { 
+            width: 100%; 
+            height: 100%;
+            border-radius: 50%;
+            /* 即使图片加载失败，也会显示这个粉色圆圈背景 */
+            background-color: #ffdfbf; 
+            filter: drop-shadow(0 10px 20px rgba(255, 133, 162, 0.4)); 
+            animation: bounce 3s infinite ease-in-out; 
+            object-fit: cover;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .bubble { 
+            position: absolute; 
+            bottom: 85px; 
+            right: -5px; 
+            background: white; 
+            border: 1.5px solid #ffeef2; 
+            padding: 12px; 
+            border-radius: 20px 20px 5px 20px; 
+            width: 145px; 
+            font-size: 12px; 
+            display: none; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
+            text-align: center; 
+            color: #ff85a2; 
+            font-weight: 500; 
+        }
 
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         footer { padding: 50px 20px; text-align: center; color: #bdc3c7; font-size: 11px; letter-spacing: 3px; }
     </style>
 </head>
@@ -73,40 +92,40 @@
     <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="SEARCH BY CODE (E.G. 001) 🔍">
 </div>
 
-<div class="container" id="productGrid">
-    </div>
+<div class="container" id="productGrid"></div>
 
 <div id="momo-container" onclick="momoSpeak()">
     <div class="bubble" id="momoBubble">Found your faves yet? ✨</div>
-    <img id="momo-img" src="https://api.dicebear.com/7.x/persona/svg?seed=Momo&backgroundColor=ffdfbf" alt="Momo">
+    <img id="momo-img" 
+         src="https://api.dicebear.com/7.x/persona/svg?seed=Momo&backgroundColor=ffdfbf" 
+         onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Momo&backgroundColor=ffdfbf'"
+         alt="Momo">
 </div>
 
 <footer>EST. 2026 | MOMO'S BEAUTY ROOM</footer>
 
 <script>
 const products = [
-    { id: "001", title: "VALENTINE'S SPECIAL GIFT", tags: "Gift Valentine", amz: "https://amzn.to/3ZRkXS6", ali: "#", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800" },
-    { id: "003", title: "TRENDY NAIL ART DESIGN", tags: "Nail Art Nails", amz: "https://amzn.to/49WkAvB", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/02.png" },
-    { id: "004", title: "INVISIBLE ACNE PATCHES", tags: "Skincare Pimple", amz: "https://amzn.to/3ZOLG1z", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/04.png" },
-    { id: "005", title: "HYDRATING FACIAL MASK", tags: "Mask Skincare", amz: "https://amzn.to/4a79H8P", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/05.png" },
-    { id: "006", title: "DAILY ESSENTIAL SKIN CARE", tags: "Essence Serum", amz: "https://amzn.to/3LEifvV", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/06.png" },
-    { id: "007", title: "ANTI-AGING REPAIR CREAM", tags: "Cream AntiAging", amz: "https://amzn.to/4qZWmWX", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/07.png" }
+    { id: "001", title: "VALENTINE'S SPECIAL GIFT", tags: "Gift", amz: "https://amzn.to/3ZRkXS6", ali: "#", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800" },
+    { id: "003", title: "TRENDY NAIL ART DESIGN", tags: "Nail", amz: "https://amzn.to/49WkAvB", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/02.png" },
+    { id: "004", title: "INVISIBLE ACNE PATCHES", tags: "Acne", amz: "https://amzn.to/3ZOLG1z", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/04.png" },
+    { id: "005", title: "HYDRATING FACIAL MASK", tags: "Mask", amz: "https://amzn.to/4a79H8P", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/05.png" },
+    { id: "006", title: "DAILY ESSENTIAL SKIN CARE", tags: "Serum", amz: "https://amzn.to/3LEifvV", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/06.png" },
+    { id: "007", title: "ANTI-AGING REPAIR CREAM", tags: "Cream", amz: "https://amzn.to/4qZWmWX", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/07.png" }
 ];
 
 function renderProducts(items) {
     const grid = document.getElementById('productGrid');
     grid.innerHTML = items.map(p => `
         <div class="card" data-search="${p.id} ${p.title} ${p.tags}">
-            <div class="badge">CODE: ${p.id}</div>
-            <a href="${p.amz}" class="card-img-wrapper">
-                <img src="${p.img}" loading="lazy" onerror="this.src='https://placehold.co/400x500?text=Beauty+Item'">
-            </a>
+            <div class="badge">#${p.id}</div>
+            <div class="card-img-wrapper">
+                <img src="${p.img}" loading="lazy" onerror="this.src='https://placehold.co/400x500/fff0f3/ff85a2?text=Beauty+Item'">
+            </div>
             <div class="card-content">
-                <a href="${p.amz}"><h3>${p.title}</h3></a>
-                <div>
-                    <a href="${p.amz}" class="btn btn-amazon">SHOP ON AMAZON</a>
-                    <a href="${p.ali}" class="btn btn-ali">WHOLESALE PRICE</a>
-                </div>
+                <h3>${p.title}</h3>
+                <a href="${p.amz}" class="btn btn-amazon">SHOP ON AMAZON</a>
+                <a href="${p.ali}" class="btn btn-ali">WHOLESALE PRICE</a>
             </div>
         </div>
     `).join('');
@@ -123,13 +142,7 @@ function filterProducts() {
 
 function momoSpeak() {
     const bubble = document.getElementById('momoBubble');
-    const msgs = [
-        "Hi! Need help today? 💖",
-        "Search codes to find my picks! 🔍",
-        "Everything here is handpicked! ✨",
-        "Stay glowing, gorgeous! ☁️",
-        "Don't forget the wholesale deals! 🏷️"
-    ];
+    const msgs = ["Need help? 💖", "Check the codes! 🔍", "Stay glowing! ☁️", "Deals inside! 🏷️"];
     bubble.innerText = msgs[Math.floor(Math.random() * msgs.length)];
     bubble.style.display = 'block';
     setTimeout(() => { bubble.style.display = 'none'; }, 4000);
