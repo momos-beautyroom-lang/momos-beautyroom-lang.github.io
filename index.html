@@ -17,15 +17,17 @@
         #searchInput { padding: 12px 25px; width: 85%; max-width: 500px; border-radius: 50px; border: 2px solid #ffeef2; outline: none; font-size: 16px; transition: 0.3s; box-sizing: border-box; }
         #searchInput:focus { border-color: var(--accent); background: white; }
 
-        /* 商品网格 - 手机端自动变两列 */
+        /* 商品网格 */
         .container { max-width: 1200px; margin: 15px auto; padding: 0 15px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         
+        /* 手机端适配优化 */
         @media (max-width: 600px) {
-            .container { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 10px; }
-            .card-content h3 { font-size: 13px; height: 34px; }
-            .btn { padding: 8px; font-size: 11px; }
+            .container { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 12px; }
+            .card-content h3 { font-size: 12px; height: 32px; margin-bottom: 8px !important; }
+            .btn { padding: 6px; font-size: 10px; border-radius: 8px; }
             .logo { font-size: 18px; letter-spacing: 3px; }
-            .card img { height: 200px; }
+            /* 修复手机端图片高度，防止显示不全 */
+            .card img { height: 180px !important; } 
         }
 
         /* 卡片样式 */
@@ -34,28 +36,29 @@
         .badge { position: absolute; top: 10px; left: 10px; background: rgba(255, 255, 255, 0.9); color: var(--accent); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; z-index: 10; }
         
         .card a { text-decoration: none; color: inherit; }
-        .card img { width: 100%; height: 280px; object-fit: cover; background: #f7f7f7; display: block; }
+        /* 核心修复：使用 contain 确保图片完整显示 */
+        .card img { width: 100%; height: 280px; object-fit: contain; background: #ffffff; display: block; }
         
-        .card-content { padding: 15px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-content h3 { margin: 0 0 12px 0; font-size: 14px; font-weight: 600; line-height: 1.3; height: 40px; display: flex; align-items: center; justify-content: center; }
+        .card-content { padding: 12px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-content h3 { margin: 0 0 12px 0; font-size: 14px; font-weight: 600; line-height: 1.2; height: 36px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         
         /* 按钮 */
-        .btn { display: block; padding: 10px; border-radius: 10px; text-decoration: none; font-weight: 600; margin-bottom: 8px; font-size: 12px; transition: 0.3s; }
+        .btn { display: block; padding: 10px; border-radius: 10px; text-decoration: none; font-weight: 600; margin-bottom: 6px; font-size: 11px; transition: 0.3s; }
         .btn-amazon { background: #232f3e; color: white !important; }
         .btn-ali { background: white; color: #ff6a00 !important; border: 1.5px solid #ff6a00; }
         .btn:active { transform: scale(0.95); }
 
         /* 看板娘互动 */
-        #momo-container { position: fixed; bottom: 20px; right: 15px; width: 80px; z-index: 9999; cursor: pointer; }
+        #momo-container { position: fixed; bottom: 20px; right: 10px; width: 60px; z-index: 9999; cursor: pointer; }
         #momo-img { width: 100%; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1)); animation: bounce 3s infinite ease-in-out; }
         .bubble { 
-            position: absolute; bottom: 90px; right: 0; background: white; border: 1px solid #ffeef2; 
-            padding: 10px; border-radius: 15px; width: 130px; font-size: 12px; display: none; 
+            position: absolute; bottom: 70px; right: 0; background: white; border: 1px solid #ffeef2; 
+            padding: 8px; border-radius: 12px; width: 110px; font-size: 11px; display: none; 
             box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center; color: var(--accent);
         }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-        footer { padding: 50px 20px; text-align: center; color: #bdc3c7; font-size: 10px; letter-spacing: 2px; }
+        footer { padding: 40px 20px; text-align: center; color: #bdc3c7; font-size: 10px; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -63,14 +66,14 @@
 <header><div class="logo">Momo's Beauty</div></header>
 
 <div class="search-section">
-    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="SEARCH FOR #NO. OR PRODUCT...">
+    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="ENTER CODE (E.G. 001) 🔍">
 </div>
 
 <div class="container" id="productGrid">
     </div>
 
 <div id="momo-container" onclick="momoSpeak()">
-    <div class="bubble" id="momoBubble">Hey! 找到心仪的了吗？</div>
+    <div class="bubble" id="momoBubble">Found your faves? ✨</div>
     <img id="momo-img" src="https://api.dicebear.com/7.x/adventurer/svg?seed=Momo" alt="Momo">
 </div>
 
@@ -78,15 +81,15 @@
 
 <script>
 /**
- * 1. 产品数据
+ * 1. 产品数据 (更新了 img 路径确保 GitHub raw 链接正确)
  */
 const products = [
     { id: "001", title: "VALENTINE'S SPECIAL GIFT", tags: "Valentine Gift 情人节 礼物", amz: "https://amzn.to/3ZRkXS6", ali: "https://www.alibaba.com", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800" },
-    { id: "003", title: "TRENDY NAIL ART DESIGN", tags: "Nail Art Press-on Nails Manicure 美甲 穿戴甲", amz: "https://amzn.to/49WkAvB", ali: "https://www.alibaba.com", img: "https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/02.png?raw=true" },
-    { id: "004", title: "INVISIBLE ACNE PATCHES", tags: "Pimple Patches Acne Cover Invisible 痘痘贴 隐形", amz: "https://amzn.to/3ZOLG1z", ali: "https://www.alibaba.com", img: "https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/04.png?raw=true" },
-    { id: "005", title: "HYDRATING FACIAL MASK", tags: "Facial Mask Sheet Mask Hydrating 面膜 补水", amz: "https://amzn.to/4a79H8P", ali: "https://www.alibaba.com", img: "https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/05.png?raw=true" },
-    { id: "006", title: "DAILY ESSENTIAL SKIN CARE", tags: "Skin Care Routine Essence Serum 护肤 精华", amz: "https://amzn.to/3LEifvV", ali: "https://www.alibaba.com", img: "https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/06.png?raw=true" },
-    { id: "007", title: "ANTI-AGING REPAIR CREAM", tags: "Anti-Aging Cream Retinol Wrinkle Repair 抗老 面霜", amz: "https://amzn.to/4qZWmWX", ali: "https://www.alibaba.com", img: "https://github.com/momos-beautyroom-lang/momos.beautyroom/blob/main/07.png?raw=true" }
+    { id: "003", title: "TRENDY NAIL ART DESIGN", tags: "Nail Art Press-on Nails Manicure 美甲 穿戴甲", amz: "https://amzn.to/49WkAvB", ali: "https://www.alibaba.com", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/02.png" },
+    { id: "004", title: "INVISIBLE ACNE PATCHES", tags: "Pimple Patches Acne Cover Invisible 痘痘贴 隐形", amz: "https://amzn.to/3ZOLG1z", ali: "https://www.alibaba.com", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/04.png" },
+    { id: "005", title: "HYDRATING FACIAL MASK", tags: "Facial Mask Sheet Mask Hydrating 面膜 补水", amz: "https://amzn.to/4a79H8P", ali: "https://www.alibaba.com", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/05.png" },
+    { id: "006", title: "DAILY ESSENTIAL SKIN CARE", tags: "Skin Care Routine Essence Serum 护肤 精华", amz: "https://amzn.to/3LEifvV", ali: "https://www.alibaba.com", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/06.png" },
+    { id: "007", title: "ANTI-AGING REPAIR CREAM", tags: "Anti-Aging Cream Retinol Wrinkle Repair 抗老 面霜", amz: "https://amzn.to/4qZWmWX", ali: "https://www.alibaba.com", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/07.png" }
 ];
 
 /**
@@ -126,13 +129,12 @@ function filterProducts() {
  */
 function momoSpeak() {
     const bubble = document.getElementById('momoBubble');
-    const msgs = ["Hi! 找到喜欢的吗？", "这些都是我的私人推荐哦~", "这款在亚马逊超火的！", "要看批发价点红色按钮！"];
+    const msgs = ["Hi! 找到喜欢的吗？", "这些都是我的私人推荐哦~", "这款在亚马逊超火的！", "要看批发价点白色按钮！"];
     bubble.innerText = msgs[Math.floor(Math.random() * msgs.length)];
     bubble.style.display = 'block';
     setTimeout(() => { bubble.style.display = 'none'; }, 3000);
 }
 
-// 页面加载完成执行
 window.onload = () => renderProducts(products);
 </script>
 </body>
