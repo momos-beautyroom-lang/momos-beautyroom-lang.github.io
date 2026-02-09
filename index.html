@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Momo's Beauty Room | Curated Picks</title>
     <style>
-        :root { --bg: #fffbfb; --accent: #ff85a2; --dark: #2d3436; --shadow: 0 10px 30px rgba(255, 133, 162, 0.1); }
+        :root { 
+            --bg: #fffbfb; 
+            --accent: #ff85a2; 
+            --dark: #2d3436; 
+            --shadow: 0 10px 30px rgba(255, 133, 162, 0.1); 
+            --ali-orange: linear-gradient(45deg, #ff9000, #ff5000); 
+        }
+        
         body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; background-color: var(--bg); color: var(--dark); -webkit-tap-highlight-color: transparent; }
         
         /* Navigation */
@@ -39,62 +46,27 @@
         .card-content { padding: 15px; text-align: center; flex-grow: 1; }
         .card-content h3 { margin: 0 0 12px 0; font-size: 14px; font-weight: 600; line-height: 1.2; height: 36px; overflow: hidden; color: #444; }
         
-        .btn { display: block; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 8px; font-size: 11px; transition: 0.3s; text-align: center; }
-        .btn-amazon { background: #232f3e; color: white !important; }
-        .btn-ali { background: white; color: #ff6a00 !important; border: 1.5px solid #ff6a00; }
+        .btn { display: block; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 8px; font-size: 11px; transition: 0.3s; text-align: center; position: relative; }
+        
+        /* Amazon Button - Subtle */
+        .btn-amazon { background: #232f3e; color: white !important; opacity: 0.9; }
+        
+        /* AliExpress Button - High Conversion Design */
+        .btn-ali { background: var(--ali-orange); color: white !important; border: none; box-shadow: 0 4px 15px rgba(255, 80, 0, 0.3); animation: subtlePulse 2s infinite; }
+        .save-badge { position: absolute; top: -8px; right: -5px; background: #ff4d4f; color: white; font-size: 8px; padding: 2px 6px; border-radius: 5px; animation: flash 1s infinite; font-weight: 900; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .btn-subtext { display: block; font-size: 8px; font-weight: 400; text-transform: uppercase; margin-bottom: -2px; opacity: 0.9; }
 
         /* Floating Consultant Button */
-        #momo-container { 
-            position: fixed; 
-            bottom: 25px; 
-            right: 20px; 
-            width: 70px; 
-            height: 70px;
-            z-index: 9999; 
-            cursor: pointer; 
-        }
-        
-        #momo-img { 
-            width: 100%; 
-            height: 100%;
-            border-radius: 50%;
-            background-color: #fff; 
-            box-shadow: 0 8px 20px rgba(255, 133, 162, 0.3);
-            border: 2px solid white;
-            animation: bounce 3s infinite ease-in-out; 
-            object-fit: cover;
-        }
+        #momo-container { position: fixed; bottom: 25px; right: 20px; width: 70px; height: 70px; z-index: 9999; cursor: pointer; }
+        #momo-img { width: 100%; height: 100%; border-radius: 50%; background-color: #fff; box-shadow: 0 8px 20px rgba(255, 133, 162, 0.3); border: 2px solid white; animation: bounce 3s infinite ease-in-out; object-fit: cover; }
+        .bubble { position: absolute; bottom: 80px; right: 0; background: white; border: 1px solid #ffeef2; padding: 10px 15px; border-radius: 18px 18px 2px 18px; width: 160px; font-size: 12px; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; color: #ff85a2; font-weight: 600; }
+        .online-dot { position: absolute; bottom: 5px; right: 5px; width: 15px; height: 15px; background: #52c41a; border: 2px solid white; border-radius: 50%; z-index: 10000; }
 
-        .bubble { 
-            position: absolute; 
-            bottom: 80px; 
-            right: 0; 
-            background: white; 
-            border: 1px solid #ffeef2; 
-            padding: 10px 15px; 
-            border-radius: 18px 18px 2px 18px; 
-            width: 160px; 
-            font-size: 12px; 
-            display: none; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
-            text-align: center; 
-            color: #ff85a2; 
-            font-weight: 600; 
-        }
-
-        .online-dot {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            width: 15px;
-            height: 15px;
-            background: #52c41a;
-            border: 2px solid white;
-            border-radius: 50%;
-            z-index: 10000;
-        }
-
+        /* Animations */
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes subtlePulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+        @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        
         footer { padding: 50px 20px; text-align: center; color: #bdc3c7; font-size: 11px; letter-spacing: 3px; }
     </style>
 </head>
@@ -109,7 +81,7 @@
 <div class="container" id="productGrid"></div>
 
 <div id="momo-container" onclick="momoSpeak()">
-    <div class="bubble" id="momoBubble">Looking for something? ✨</div>
+    <div class="bubble" id="momoBubble">Looking for a clear, no-white-cast finish? The Abib Sunstick is a game changer! 🧊</div>
     <div class="online-dot"></div>
     <img id="momo-img" 
          src="https://api.dicebear.com/7.x/lorelei/svg?seed=Sunny" 
@@ -120,13 +92,62 @@
 
 <script>
 const products = [
-    { id: "001", title: "VALENTINE'S SPECIAL GIFT", tags: "Gift", amz: "https://amzn.to/3ZRkXS6", ali: "#", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800" },
-    { id: "002", title: "ABIB QUICK SUNSTICK : NON-STICKY PROTECTION BAR", tags: "Invisible, Heartleaf, No-White-Cast, Abib", amz: "https://www.amazon.com/Abib-Smoothing-Non-Sticky-Protection-Long-lasting/dp/B0DSMTDVCH", ali: "#", img: "https://github.com/momos-beautyroom-lang/momos-beautyroom-lang.github.io/blob/main/002.png?raw=true" },
-    { id: "003", title: "TRENDY NAIL ART DESIGN", tags: "Nail", amz: "https://amzn.to/49WkAvB", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/02.png" },
-    { id: "004", title: "INVISIBLE ACNE PATCHES", tags: "Acne", amz: "https://amzn.to/3ZOLG1z", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/04.png" },
-    { id: "005", title: "HYDRATING FACIAL MASK", tags: "Mask", amz: "https://amzn.to/4a79H8P", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/05.png" },
-    { id: "006", title: "DAILY ESSENTIAL SKIN CARE", tags: "Serum", amz: "https://amzn.to/3LEifvV", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/06.png" },
-    { id: "007", title: "ANTI-AGING REPAIR CREAM", tags: "Cream", amz: "https://amzn.to/4qZWmWX", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/07.png" }
+    { 
+        id: "001", 
+        title: "VALENTINE'S SPECIAL GIFT", 
+        tags: "Gift", 
+        amz: "https://amzn.to/3ZRkXS6", 
+        ali: "https://s.click.aliexpress.com/e/_c3xLY4Eb", 
+        img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800" 
+    },
+    { 
+        id: "002", 
+        title: "ABIB QUICK SUNSTICK : NON-STICKY PROTECTION BAR", 
+        tags: "Invisible, Heartleaf, No-White-Cast, Abib, Sunscreen", 
+        amz: "https://www.amazon.com/Abib-Smoothing-Non-Sticky-Protection-Long-lasting/dp/B0DSMTDVCH", 
+        ali: "https://s.click.aliexpress.com/e/_c3xLY4Eb", 
+        img: "https://github.com/momos-beautyroom-lang/momos-beautyroom-lang.github.io/blob/main/002.png?raw=true" 
+    },
+    { 
+        id: "003", 
+        title: "TRENDY NAIL ART DESIGN", 
+        tags: "Nail", 
+        amz: "https://amzn.to/49WkAvB", 
+        ali: "https://s.click.aliexpress.com/e/_c3xLY4Eb", 
+        img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/02.png" 
+    },
+    { 
+        id: "004", 
+        title: "INVISIBLE ACNE PATCHES", 
+        tags: "Acne", 
+        amz: "https://amzn.to/3ZOLG1z", 
+        ali: "https://s.click.aliexpress.com/e/_c3xLY4Eb", 
+        img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/04.png" 
+    },
+    { 
+        id: "005", 
+        title: "HYDRATING FACIAL MASK", 
+        tags: "Mask", 
+        amz: "https://amzn.to/4a79H8P", 
+        ali: "https://s.click.aliexpress.com/e/_c3xLY4Eb", 
+        img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/05.png" 
+    },
+    { 
+        id: "006", 
+        title: "DAILY ESSENTIAL SKIN CARE", 
+        tags: "Serum", 
+        amz: "https://amzn.to/3LEifvV", 
+        ali: "https://s.click.aliexpress.com/e/_c3xLY4Eb", 
+        img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/06.png" 
+    },
+    { 
+        id: "007", 
+        title: "ANTI-AGING REPAIR CREAM", 
+        tags: "Cream", 
+        amz: "https://amzn.to/4qZWmWX", 
+        ali: "https://s.click.aliexpress.com/e/_c3xLY4Eb", 
+        img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/07.png" 
+    }
 ];
 
 function renderProducts(items) {
@@ -139,8 +160,14 @@ function renderProducts(items) {
             </a>
             <div class="card-content">
                 <h3>${p.title}</h3>
-                <a href="${p.amz}" class="btn btn-amazon">SHOP ON AMAZON</a>
-                <a href="${p.ali}" class="btn btn-ali">WHOLESALE PRICE</a>
+                
+                <a href="${p.amz}" class="btn btn-amazon" target="_blank">SHOP AT AMAZON</a>
+                
+                <a href="${p.ali}" class="btn btn-ali" target="_blank">
+                    <span class="btn-subtext">Buying 2+? Save 40%</span>
+                    WHOLESALE PRICE
+                    <div class="save-badge">LOWEST $</div>
+                </a>
             </div>
         </div>
     `).join('');
@@ -159,13 +186,13 @@ function momoSpeak() {
     const bubble = document.getElementById('momoBubble');
     const msgs = [
         "Looking for a clear, no-white-cast finish? The Abib Sunstick is a game changer! 🧊", 
-        "Click the photos to shop! 🛍️", 
-        "Check out our Best Sellers! 🔥", 
-        "Daily deals are here! 🏷️"
+        "Buying for your salon? AliExpress is much cheaper! 📦", 
+        "Psst! Use the orange button to get wholesale prices! 💰", 
+        "Click the photos to see details on Amazon! ✨"
     ];
     bubble.innerText = msgs[Math.floor(Math.random() * msgs.length)];
     bubble.style.display = 'block';
-    setTimeout(() => { bubble.style.display = 'none'; }, 4000);
+    setTimeout(() => { bubble.style.display = 'none'; }, 5000);
 }
 
 window.onload = () => renderProducts(products);
