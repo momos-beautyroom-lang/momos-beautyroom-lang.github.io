@@ -31,8 +31,10 @@
         .card:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
         .badge { position: absolute; top: 12px; left: 12px; background: rgba(255, 133, 162, 0.9); color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 10; }
         
-        .card-img-wrapper { width: 100%; height: 300px; background: #fefefe; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        /* Image Wrapper with Click Effect */
+        .card-img-wrapper { width: 100%; height: 300px; background: #fefefe; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; position: relative; }
+        .card img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.5s ease; }
+        .card-img-wrapper:hover img { transform: scale(1.1); } /* 图片悬停放大效果 */
         
         .card-content { padding: 15px; text-align: center; flex-grow: 1; }
         .card-content h3 { margin: 0 0 12px 0; font-size: 14px; font-weight: 600; line-height: 1.2; height: 36px; overflow: hidden; color: #444; }
@@ -41,7 +43,7 @@
         .btn-amazon { background: #232f3e; color: white !important; }
         .btn-ali { background: white; color: #ff6a00 !important; border: 1.5px solid #ff6a00; }
 
-        /* Optimized Floating Consultant Button */
+        /* Floating Consultant Button */
         #momo-container { 
             position: fixed; 
             bottom: 25px; 
@@ -80,7 +82,6 @@
             font-weight: 600; 
         }
 
-        /* Online Status Indicator */
         .online-dot {
             position: absolute;
             bottom: 5px;
@@ -108,7 +109,7 @@
 <div class="container" id="productGrid"></div>
 
 <div id="momo-container" onclick="momoSpeak()">
-    <div class="bubble" id="momoBubble">How can I help you today? ✨</div>
+    <div class="bubble" id="momoBubble">Looking for something? ✨</div>
     <div class="online-dot"></div>
     <img id="momo-img" 
          src="https://api.dicebear.com/7.x/lorelei/svg?seed=Sunny" 
@@ -120,7 +121,7 @@
 <script>
 const products = [
     { id: "001", title: "VALENTINE'S SPECIAL GIFT", tags: "Gift", amz: "https://amzn.to/3ZRkXS6", ali: "#", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800" },
-    { id: "002", title: "PREMIUM BEAUTY SELECTION", tags: "Beauty", amz: "https://amzn.to/46y7S3J", ali: "#", img: "https://github.com/momos-beautyroom-lang/momos-beautyroom-lang.github.io/blob/main/002.png?raw=true" },
+    { id: "002", title: "MATTE SUN STICK : ARTEMISIA+CAMELIA", tags: "Sunscreen", amz: "https://amzn.to/46y7S3J", ali: "#", img: "https://github.com/momos-beautyroom-lang/momos-beautyroom-lang.github.io/blob/main/002.png?raw=true" },
     { id: "003", title: "TRENDY NAIL ART DESIGN", tags: "Nail", amz: "https://amzn.to/49WkAvB", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/02.png" },
     { id: "004", title: "INVISIBLE ACNE PATCHES", tags: "Acne", amz: "https://amzn.to/3ZOLG1z", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/04.png" },
     { id: "005", title: "HYDRATING FACIAL MASK", tags: "Mask", amz: "https://amzn.to/4a79H8P", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/05.png" },
@@ -133,9 +134,9 @@ function renderProducts(items) {
     grid.innerHTML = items.map(p => `
         <div class="card" data-search="${p.id} ${p.title} ${p.tags}">
             <div class="badge">#${p.id}</div>
-            <div class="card-img-wrapper">
+            <a href="${p.amz}" target="_blank" class="card-img-wrapper">
                 <img src="${p.img}" loading="lazy" onerror="this.src='https://placehold.co/400x500/fff0f3/ff85a2?text=Beauty+Item'">
-            </div>
+            </a>
             <div class="card-content">
                 <h3>${p.title}</h3>
                 <a href="${p.amz}" class="btn btn-amazon">SHOP ON AMAZON</a>
@@ -156,12 +157,11 @@ function filterProducts() {
 
 function momoSpeak() {
     const bubble = document.getElementById('momoBubble');
-    // English professional phrases for higher conversion
     const msgs = [
-        "Hi! Looking for something special? 💖", 
-        "Need help with product codes? 🔍", 
-        "Free beauty tips inside! ☁️", 
-        "Don't miss today's best deals! 🏷️"
+        "Click the photos to shop! 🛍️", 
+        "Need help with your skin? ✨", 
+        "Check out our Best Sellers! 🔥", 
+        "Daily deals are here! 🏷️"
     ];
     bubble.innerText = msgs[Math.floor(Math.random() * msgs.length)];
     bubble.style.display = 'block';
