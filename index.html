@@ -59,7 +59,7 @@
         /* Floating Consultant Button */
         #momo-container { position: fixed; bottom: 25px; right: 20px; width: 70px; height: 70px; z-index: 9999; cursor: pointer; }
         #momo-img { width: 100%; height: 100%; border-radius: 50%; background-color: #fff; box-shadow: 0 8px 20px rgba(255, 133, 162, 0.3); border: 2px solid white; animation: bounce 3s infinite ease-in-out; object-fit: cover; }
-        .bubble { position: absolute; bottom: 80px; right: 0; background: white; border: 1px solid #ffeef2; padding: 10px 15px; border-radius: 18px 18px 2px 18px; width: 160px; font-size: 12px; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; color: #ff85a2; font-weight: 600; }
+        .bubble { position: absolute; bottom: 80px; right: 0; background: white; border: 1px solid #ffeef2; padding: 10px 15px; border-radius: 18px 18px 2px 18px; width: 180px; font-size: 11px; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; color: #ff85a2; font-weight: 600; line-height: 1.4; }
         .online-dot { position: absolute; bottom: 5px; right: 5px; width: 15px; height: 15px; background: #52c41a; border: 2px solid white; border-radius: 50%; z-index: 10000; }
 
         /* Animations */
@@ -75,13 +75,13 @@
 <header><div class="logo">Momo's Beauty</div></header>
 
 <div class="search-section">
-    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="SEARCH BY CODE (E.G. 001) 🔍">
+    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="SEARCH BY CODE (E.G. 002) 🔍">
 </div>
 
 <div class="container" id="productGrid"></div>
 
 <div id="momo-container" onclick="momoSpeak()">
-    <div class="bubble" id="momoBubble">Looking for a clear, no-white-cast finish? The Abib Sunstick is a game changer! 🧊</div>
+    <div class="bubble" id="momoBubble">I find the best brands on Amazon and their affordable twins on AliExpress for you! Choose what fits your budget! 💖</div>
     <div class="online-dot"></div>
     <img id="momo-img" 
          src="https://api.dicebear.com/7.x/lorelei/svg?seed=Sunny" 
@@ -164,9 +164,9 @@ function renderProducts(items) {
                 <a href="${p.amz}" class="btn btn-amazon" target="_blank">SHOP AT AMAZON</a>
                 
                 <a href="${p.ali}" class="btn btn-ali" target="_blank">
-                    <span class="btn-subtext">Buying 2+? Save 40%</span>
-                    WHOLESALE PRICE
-                    <div class="save-badge">LOWEST $</div>
+                    <span class="btn-subtext">Love the style? Save more</span>
+                    GET AFFORDABLE TWIN
+                    <div class="save-badge">FREE SHIP</div>
                 </a>
             </div>
         </div>
@@ -185,14 +185,14 @@ function filterProducts() {
 function momoSpeak() {
     const bubble = document.getElementById('momoBubble');
     const msgs = [
+        "I find the best brands on Amazon and their affordable twins on AliExpress for you! Choose what fits your budget! 💖",
         "Looking for a clear, no-white-cast finish? The Abib Sunstick is a game changer! 🧊", 
-        "Buying for your salon? AliExpress is much cheaper! 📦", 
-        "Psst! Use the orange button to get wholesale prices! 💰", 
-        "Click the photos to see details on Amazon! ✨"
+        "Buying for your salon? AliExpress wholesale is much cheaper! 📦", 
+        "Psst! Use the orange button to get the best twins with free shipping! 💰"
     ];
     bubble.innerText = msgs[Math.floor(Math.random() * msgs.length)];
     bubble.style.display = 'block';
-    setTimeout(() => { bubble.style.display = 'none'; }, 5000);
+    setTimeout(() => { bubble.style.display = 'none'; }, 6000);
 }
 
 window.onload = () => renderProducts(products);
