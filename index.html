@@ -34,7 +34,7 @@
         /* Image Wrapper with Click Effect */
         .card-img-wrapper { width: 100%; height: 300px; background: #fefefe; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; position: relative; }
         .card img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.5s ease; }
-        .card-img-wrapper:hover img { transform: scale(1.1); } /* 图片悬停放大效果 */
+        .card-img-wrapper:hover img { transform: scale(1.1); }
         
         .card-content { padding: 15px; text-align: center; flex-grow: 1; }
         .card-content h3 { margin: 0 0 12px 0; font-size: 14px; font-weight: 600; line-height: 1.2; height: 36px; overflow: hidden; color: #444; }
@@ -121,7 +121,7 @@
 <script>
 const products = [
     { id: "001", title: "VALENTINE'S SPECIAL GIFT", tags: "Gift", amz: "https://amzn.to/3ZRkXS6", ali: "#", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800" },
-    { id: "002", title: "MATTE SUN STICK : ARTEMISIA+CAMELIA", tags: "Sunscreen", amz: "https://amzn.to/46y7S3J", ali: "#", img: "https://github.com/momos-beautyroom-lang/momos-beautyroom-lang.github.io/blob/main/002.png?raw=true" },
+    { id: "002", title: "ABIB QUICK SUNSTICK : NON-STICKY PROTECTION BAR", tags: "Invisible, Heartleaf, No-White-Cast, Abib", amz: "https://www.amazon.com/Abib-Smoothing-Non-Sticky-Protection-Long-lasting/dp/B0DSMTDVCH", ali: "#", img: "https://github.com/momos-beautyroom-lang/momos-beautyroom-lang.github.io/blob/main/002.png?raw=true" },
     { id: "003", title: "TRENDY NAIL ART DESIGN", tags: "Nail", amz: "https://amzn.to/49WkAvB", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/02.png" },
     { id: "004", title: "INVISIBLE ACNE PATCHES", tags: "Acne", amz: "https://amzn.to/3ZOLG1z", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/04.png" },
     { id: "005", title: "HYDRATING FACIAL MASK", tags: "Mask", amz: "https://amzn.to/4a79H8P", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/05.png" },
@@ -158,8 +158,8 @@ function filterProducts() {
 function momoSpeak() {
     const bubble = document.getElementById('momoBubble');
     const msgs = [
+        "Looking for a clear, no-white-cast finish? The Abib Sunstick is a game changer! 🧊", 
         "Click the photos to shop! 🛍️", 
-        "Need help with your skin? ✨", 
         "Check out our Best Sellers! 🔥", 
         "Daily deals are here! 🏷️"
     ];
