@@ -41,7 +41,7 @@
         .btn-amazon { background: #232f3e; color: white !important; }
         .btn-ali { background: white; color: #ff6a00 !important; border: 1.5px solid #ff6a00; }
 
-        /* --- 重点修复：Momo 看板娘部分 --- */
+        /* 看板娘小女生版本 (Sunny) */
         #momo-container { 
             position: fixed; 
             bottom: 25px; 
@@ -56,7 +56,6 @@
             width: 100%; 
             height: 100%;
             border-radius: 50%;
-            /* 即使图片加载失败，也会显示这个粉色圆圈背景 */
             background-color: #ffdfbf; 
             filter: drop-shadow(0 10px 20px rgba(255, 133, 162, 0.4)); 
             animation: bounce 3s infinite ease-in-out; 
@@ -97,8 +96,8 @@
 <div id="momo-container" onclick="momoSpeak()">
     <div class="bubble" id="momoBubble">Found your faves yet? ✨</div>
     <img id="momo-img" 
-         src="https://api.dicebear.com/7.x/persona/svg?seed=Momo&backgroundColor=ffdfbf" 
-         onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Momo&backgroundColor=ffdfbf'"
+         src="https://api.dicebear.com/7.x/lorelei/svg?seed=Sunny" 
+         onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Sunny'"
          alt="Momo">
 </div>
 
@@ -142,7 +141,7 @@ function filterProducts() {
 
 function momoSpeak() {
     const bubble = document.getElementById('momoBubble');
-    const msgs = ["Need help? 💖", "Check the codes! 🔍", "Stay glowing! ☁️", "Deals inside! 🏷️"];
+    const msgs = ["Hi! Need help? 💖", "Check the codes! 🔍", "Stay glowing! ☁️", "Deals inside! 🏷️"];
     bubble.innerText = msgs[Math.floor(Math.random() * msgs.length)];
     bubble.style.display = 'block';
     setTimeout(() => { bubble.style.display = 'none'; }, 4000);
