@@ -41,13 +41,13 @@
         .btn-amazon { background: #232f3e; color: white !important; }
         .btn-ali { background: white; color: #ff6a00 !important; border: 1.5px solid #ff6a00; }
 
-        /* 看板娘小女生版本 (Sunny) */
+        /* Optimized Floating Consultant Button */
         #momo-container { 
             position: fixed; 
             bottom: 25px; 
             right: 20px; 
-            width: 75px; 
-            height: 75px;
+            width: 70px; 
+            height: 70px;
             z-index: 9999; 
             cursor: pointer; 
         }
@@ -56,30 +56,44 @@
             width: 100%; 
             height: 100%;
             border-radius: 50%;
-            background-color: #ffdfbf; 
-            filter: drop-shadow(0 10px 20px rgba(255, 133, 162, 0.4)); 
+            background-color: #fff; 
+            box-shadow: 0 8px 20px rgba(255, 133, 162, 0.3);
+            border: 2px solid white;
             animation: bounce 3s infinite ease-in-out; 
             object-fit: cover;
         }
 
         .bubble { 
             position: absolute; 
-            bottom: 85px; 
-            right: -5px; 
+            bottom: 80px; 
+            right: 0; 
             background: white; 
-            border: 1.5px solid #ffeef2; 
-            padding: 12px; 
-            border-radius: 20px 20px 5px 20px; 
-            width: 145px; 
+            border: 1px solid #ffeef2; 
+            padding: 10px 15px; 
+            border-radius: 18px 18px 2px 18px; 
+            width: 160px; 
             font-size: 12px; 
             display: none; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
             text-align: center; 
             color: #ff85a2; 
-            font-weight: 500; 
+            font-weight: 600; 
         }
 
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        /* Online Status Indicator */
+        .online-dot {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 15px;
+            height: 15px;
+            background: #52c41a;
+            border: 2px solid white;
+            border-radius: 50%;
+            z-index: 10000;
+        }
+
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         footer { padding: 50px 20px; text-align: center; color: #bdc3c7; font-size: 11px; letter-spacing: 3px; }
     </style>
 </head>
@@ -94,11 +108,11 @@
 <div class="container" id="productGrid"></div>
 
 <div id="momo-container" onclick="momoSpeak()">
-    <div class="bubble" id="momoBubble">Found your faves yet? ✨</div>
+    <div class="bubble" id="momoBubble">How can I help you today? ✨</div>
+    <div class="online-dot"></div>
     <img id="momo-img" 
          src="https://api.dicebear.com/7.x/lorelei/svg?seed=Sunny" 
-         onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Sunny'"
-         alt="Momo">
+         alt="Beauty Consultant">
 </div>
 
 <footer>EST. 2026 | MOMO'S BEAUTY ROOM</footer>
@@ -106,6 +120,7 @@
 <script>
 const products = [
     { id: "001", title: "VALENTINE'S SPECIAL GIFT", tags: "Gift", amz: "https://amzn.to/3ZRkXS6", ali: "#", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800" },
+    { id: "002", title: "PREMIUM BEAUTY SELECTION", tags: "Beauty", amz: "https://amzn.to/46y7S3J", ali: "#", img: "https://github.com/momos-beautyroom-lang/momos-beautyroom-lang.github.io/blob/main/002.png?raw=true" },
     { id: "003", title: "TRENDY NAIL ART DESIGN", tags: "Nail", amz: "https://amzn.to/49WkAvB", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/02.png" },
     { id: "004", title: "INVISIBLE ACNE PATCHES", tags: "Acne", amz: "https://amzn.to/3ZOLG1z", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/04.png" },
     { id: "005", title: "HYDRATING FACIAL MASK", tags: "Mask", amz: "https://amzn.to/4a79H8P", ali: "#", img: "https://raw.githubusercontent.com/momos-beautyroom-lang/momos.beautyroom/main/05.png" },
@@ -141,7 +156,13 @@ function filterProducts() {
 
 function momoSpeak() {
     const bubble = document.getElementById('momoBubble');
-    const msgs = ["Hi! Need help? 💖", "Check the codes! 🔍", "Stay glowing! ☁️", "Deals inside! 🏷️"];
+    // English professional phrases for higher conversion
+    const msgs = [
+        "Hi! Looking for something special? 💖", 
+        "Need help with product codes? 🔍", 
+        "Free beauty tips inside! ☁️", 
+        "Don't miss today's best deals! 🏷️"
+    ];
     bubble.innerText = msgs[Math.floor(Math.random() * msgs.length)];
     bubble.style.display = 'block';
     setTimeout(() => { bubble.style.display = 'none'; }, 4000);
